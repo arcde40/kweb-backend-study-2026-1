@@ -11,4 +11,40 @@ const tasks = [
 	{name: "Default", completed: false},
 ];
 
-/* Your Code Here */
+
+app.get('/todo', (req, res) => {
+	const error = req.query.error;
+	res.render('todo-improved.pug', {tasks, error});
+});
+
+app.post('/add-task', (req, res) => {
+	const taskName = req.body.taskName;
+	if (taskName && taskName.trim() !== '') {
+		tasks.push({name: taskName, completed: false});
+		res.redirect('/todo');
+		next();
+	}
+	else {
+		res.redirect('/todo?error=할 일이 비었습니다!');
+	}
+});
+
+app.post('/complete-task', (req, res, next) => {
+	const taskIndex = Number(req.body.taskIndex);
+	if (taskIndex < 0 || taskIndex >= taskIndex.length) {
+		next('존재하지 않는 일입니다.');
+	} else {
+		tasks[taskIndex].completed = true;
+		res.redirect('/todo');
+	}	
+});
+
+app.use((req, res, next) => {
+	res.redirect('/todo');
+})
+
+app.use((error, req, res, next) => {
+	res.redirect(`/todo?error=${error}`);
+})
+
+app.listen(8081, () => {});
