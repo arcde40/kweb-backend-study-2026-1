@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title 이과식 계산기
+  body
+    h1 계산기 (합과 차)
+    
+    //- 값을 입력받을 HTML 폼 (GET 방식으로 /calculator에 전송)
+    form(action="/calculator" method="GET")
+      input(type="number" name="a" placeholder="첫 번째 숫자" value=a required)
+      span  와(과) 
+      input(type="number" name="b" placeholder="두 번째 숫자" value=b required)
+      button(type="submit") 계산하기
+
+    //- 서버에서 sum 변수가 넘어왔을 때만 결과 출력
+    if sum !== null
+      hr
+      h3 📊 결과
+      p 덧셈 (#{a} + #{b}) = #{sum}
+      p 뺄셈 (#{a} - #{b}) = #{diff}
