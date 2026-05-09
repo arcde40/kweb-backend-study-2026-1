@@ -1,0 +1,57 @@
+doctype html
+html
+  head
+    title Calculator
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 80px;
+      }
+
+      .box {
+        display: inline-block;
+        padding: 30px;
+        border: 2px solid #444;
+        border-radius: 12px;
+      }
+
+      input {
+        margin: 8px;
+        padding: 8px;
+        width: 120px;
+      }
+
+      button {
+        margin-top: 10px;
+        padding: 8px 20px;
+        cursor: pointer;
+      }
+
+      .result {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      .error {
+        color: red;
+        margin-top: 15px;
+      }
+
+  body
+    .box
+      h1 
+
+      form(action="/calculate" method="post")
+        input(type="number" name="num1" placeholder="첫 번째 수")
+        input(type="number" name="num2" placeholder="두 번째 수")
+        br
+        button(type="submit") 
+
+      if error
+        .error #{error}
+
+      if result
+        .result
+          p #{result.num1} + #{result.num2} = #{result.sum}
+          p #{result.num1} - #{result.num2} = #{result.diff}
