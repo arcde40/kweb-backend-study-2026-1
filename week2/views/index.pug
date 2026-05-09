@@ -1,0 +1,25 @@
+doctype html
+html(lang="ko")
+    head
+        title Math Calculator
+
+    body
+        h1 계산기
+
+        h2 덧셈
+
+        form(action='/math/sum', method="GET")
+            p 
+                input(type="number", name="a", placeholder="첫 번째 숫자")
+                input(type="number", name="b", placeholder="두 번째 숫자")
+            input(type="submit", value="Submit")
+
+        hr
+
+        h2 뺄셈
+        form(action='/math/sub', method="GET")
+            p 
+                input(type="number", name="a", placeholder="첫 번째 숫자")
+                input(type="number", name="b", placeholder="두 번째 숫자")
+            input(type="submit", value="Submit")
+        
