@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title Math
+  body
+    h1 두 수 계산기
+
+    form(action="/math/calculate" method="POST")
+      input(type="number" name="a" placeholder="첫 번째 수")
+      input(type="number" name="b" placeholder="두 번째 수")
+
+      br
+      br
+
+      button(type="submit" name="op" value="sum") 더하기
+      button(type="submit" name="op" value="sub") 빼기
+
+    if result
+      h2 결과
+      p= result
