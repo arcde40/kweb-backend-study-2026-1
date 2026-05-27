@@ -1,0 +1,36 @@
+doctype html
+html(lang="ko")
+    head
+        title To-do List
+        link(rel="stylesheet", href="/style-improved.css")
+        if error
+            script.
+                alert(#{'\'' + error + '\''});
+    body
+        main.container
+            header
+                h1
+                    span.icon ✓
+                    |  To-do List
+
+            section.add-section
+                form(action="/add-task", method="POST")
+                    input(type="text", name="taskName", placeholder="새 할 일을 입력하세요", required=true, autocomplete="off")
+                    button(type="submit") 추가
+
+            section.task-section
+                if (!tasks || !tasks.length)
+                    div.empty-state
+                        p.empty-icon ☁️
+                        p.empty-message 할 일이 없습니다
+                else
+                    ul#task-list
+                        each task, index in tasks
+                            li(class=task.completed ? 'task-item completed' : 'task-item')
+                                span.task-name #{task.name}
+                                if !task.completed
+                                    form(action="/complete-task", method="POST")
+                                        input(type="hidden", name="taskIndex", value=index)
+                                        button.complete-btn(type="submit") 완료
+                                else
+                                    span.done-badge 완료됨

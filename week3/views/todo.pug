@@ -1,0 +1,28 @@
+doctype html
+html(lang="ko")
+    head 
+        title To-do List
+        link(rel="stylesheet", href="/style.css")
+            
+        if error 
+            script. 
+                alert(#{'\'' + error + '\''});
+    body 
+        h1 To-do list
+        form(action="/add-task", method="POST")
+            div
+                input(type="text", name="taskName", placeholder="새 할 일을 입력하세요", required=true)
+            div
+                button(type="submit") 추가
+
+        ul#task-list 
+            each task, index in tasks 
+                li(class=task.completed ? 'completed' : '')
+                    span #{task.name}
+                    if !task.completed
+                        form(action="/complete-task", method="POST", style="display: inline;")
+                            input(type="hidden", name="taskIndex", value=index)
+                            button.complete-btn(type="submit") 완료
+
+        if (!tasks || !tasks.length)
+            p.empty-message No tasks!
