@@ -1,26 +1,31 @@
 doctype html
 html(lang="ko")
     head
-        title To-do List
+        title Math
         link(rel="stylesheet", href="/style-improved.css")
         if error
             script.
                 alert(#{'\'' + error + '\''});
+        if result
+            script.
+                alert("합 연산 결과: #{result}");
+        
     body
         main.container
             header
                 h1
                     span.icon ✓
-                    |  To-do List
+                    |  M A T H
 
             section.add-section
                 form(action="/add-task", method="POST")
-                    input(type="text", name="taskName", placeholder="새 할 일을 입력하세요", required=true, autocomplete="off")
+                    input(type="text", name="numA", placeholder="A", required=true, autocomplete="off")
+                    input(type="text", name="numB", placeholder="B", required=true, autocomplete="off")
                     button(type="submit") 추가
 
             section.task-section
                 if (!tasks || !tasks.length)
-                    div.empty-state
+                    div.empty-state 
                         p.empty-icon ☁️
                         p.empty-message 할 일이 없습니다
                 else
