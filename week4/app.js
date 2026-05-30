@@ -8,13 +8,12 @@ const {runQuery} = require('./database');
 // 1. 학생의 이름을 받아 그 학생의 모든 성적을 출력하는 함수
 async function getGradesByStudentName(studentName) {
     const query = `
-        SELECT c.course_name, e.grade
-        FROM Students s
-        JOIN Enrollments e ON s.student_id = e.student_id
-        JOIN Courses c ON e.course_id = c.course_id
-        WHERE s.student_name = ?;
+        SELECT s.student_name, e.course_id, e.grade
+        FROM enrollments e INNER JOIN students s
+        on e.student_id = s.student_id
+        where s.student_name = ?;
     `;
-    // runQuery가 두 번째 인자로 파라미터 배열을 받는다고 가정 (SQL Injection 방지)
+    // runQuery가 두 번째 인자로 파라미터 배열을 받는다고 가정 
     const result = await runQuery(query, [studentName]);
     console.log(`\n[${studentName} 학생의 성적 목록]`);
     console.log(result);
@@ -24,10 +23,10 @@ async function getGradesByStudentName(studentName) {
 // 2. 강의 이름을 받아 그 강의를 들었던 학생 목록을 출력하는 함수
 async function getStudentsByCourseName(courseName) {
     const query = `
-        SELECT s.student_id, s.student_name, s.major, e.grade
-        FROM Courses c
-        JOIN Enrollments e ON c.course_id = e.course_id
-        JOIN Students s ON e.student_id = s.student_id
+        SELECT s.student_id, s.student_name
+        FROM courses c
+        JOIN enrollments e ON c.course_id = e.course_id
+        JOIN students s ON e.student_id = s.student_id
         WHERE c.course_name = ?;
     `;
     const result = await runQuery(query, [courseName]);
@@ -36,10 +35,10 @@ async function getStudentsByCourseName(courseName) {
     return result;
 }
 
-// 3. 학생 ID와 강의 ID, 성적을 받아 학생이 강의를 수강하도록 하는 함수 (INSERT)
+// 3. 학생 ID와 강의 ID, 성적을 받아 학생이 강의를 수강하도록 하는 함수
 async function enrollStudent(studentId, courseId, grade) {
     const query = `
-        INSERT INTO Enrollments (student_id, course_id, grade)
+        INSERT INTO enrollments (student_id, course_id, grade)
         VALUES (?, ?, ?);
     `;
     try {
@@ -56,7 +55,7 @@ async function enrollStudent(studentId, courseId, grade) {
 (async () => {
     // 0. 전체 학생 확인 (기존 코드)
     console.log('--- 전체 학생 목록 ---');
-    console.log(await runQuery('SELECT * FROM Students;'));
+    console.log(await runQuery('SELECT * FROM students;'));
 
     // 테스트를 위해 DB에 실제로 존재하는 데이터(이름, 강의명, ID 등)를 입력해야 정상 작동합니다.
 
