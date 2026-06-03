@@ -2,7 +2,9 @@
   "dependencies": {
     "express": "^5.2.1",
     "express-session": "^1.19.0",
+    "html": "^1.0.0",
     "mysql2": "^3.22.3",
-    "pug": "^3.0.4"
+    "pug": "^3.0.4",
+    "sanitize": "^2.1.2"
   }
 }
