@@ -1,0 +1,29 @@
+doctype html
+html(lang="ko")
+    head
+        title Math
+        link(rel="stylesheet", href="/style-view.css")
+        if error
+            script.
+                alert(#{'\'' + error + '\''});
+    body
+        main.container
+            header
+                h1
+                    span.icon ✓
+                    |  Math
+
+            section.add-section
+                form(action="/math/calculate", method="POST")
+                    input(type="text", name="a", placeholder="숫자 1", required=true, autocomplete="off")
+                    input(type="text", name="b", placeholder="숫자 2", required=true, autocomplete="off")
+                    button(type="submit") 계산
+
+            section.answer-section
+                if (!ans.cal)
+                    div.empty-state
+                        p.empty-message 계산해라
+                else
+                    div.answer-state
+                        p.sum-message #{ans.sum} 
+                        p.sub-message #{ans.sub}
