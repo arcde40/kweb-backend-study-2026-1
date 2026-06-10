@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const sanitizeHtml = require("sanitize-html");
 const { runQuery, initDB } = require('./template/database_template');
 
 const app = express();
@@ -23,11 +24,13 @@ app.get('/', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     
-    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+    // 1. [SQL Injection 방어] 백틱 대신 ? (Placeholders)를 사용하여 쿼리를 짭니다.
+    const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
     
     let loginResult = '';
     try {
-        const rows = await runQuery(query);
+        // 2. [SQL Injection 방어] 입력값을 runQuery의 두 번째 인자인 배열에 안전하게 전달합니다.
+        const rows = await runQuery(query, [username, password]);
         const user = rows[0]; 
 
         if (user) {
@@ -48,7 +51,10 @@ app.post('/comment', async (req, res) => {
 
     try {
         const query = `INSERT INTO comments (content) VALUES (?)`;
-        await runQuery(query, [content]);
+        const sanitized = sanitizeHtml(content); 
+        
+        // [XSS 방어] 원본 content 대신, 필터링을 거친 sanitized 변수를 DB에 저장합니다!
+        await runQuery(query, [sanitized]); 
     } catch (err) {
         console.error(err);
     }
