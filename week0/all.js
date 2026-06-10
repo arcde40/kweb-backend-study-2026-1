@@ -9,7 +9,8 @@ function findStudent(name) {
 }
 
 function findFirstPlace(scoreOf) {
-
+    let x=0;
+    
 }
 
 findFirstPlace(function(s) { return s.score.mid; });    // 중간고사 1등
