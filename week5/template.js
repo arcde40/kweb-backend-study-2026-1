@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const { runQuery, initDB } = require('./template/database_template');
-
+const sanitizehtml = require('sanitize-html');
 const app = express();
 const port = 8080;
 
@@ -12,6 +12,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', async (req, res) => {
     try {
         const comments = await runQuery("SELECT * FROM comments");
+        const sanitized = sanitizehtml(content);
         res.render('template', { comments, loginResult: null });
     } catch (err) {
         console.error(err);
@@ -23,11 +24,11 @@ app.get('/', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     
-    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+    const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
     
     let loginResult = '';
     try {
-        const rows = await runQuery(query);
+        const rows = await runQuery(query, [username, password]);
         const user = rows[0]; 
 
         if (user) {
@@ -46,9 +47,11 @@ app.post('/login', async (req, res) => {
 app.post('/comment', async (req, res) => {
     const { content } = req.body;
 
+    const sanitizedContent = sanitizehtml(content);
+
     try {
         const query = `INSERT INTO comments (content) VALUES (?)`;
-        await runQuery(query, [content]);
+        await runQuery(query, [sanitizedContent]);
     } catch (err) {
         console.error(err);
     }
