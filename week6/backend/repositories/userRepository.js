@@ -21,7 +21,7 @@ async function findByUsername(username) {
  */
 async function findById(id) {
     const rows = await runQuery(
-        'SELECT id, username, created_at FROM users WHERE id = ?',
+        'SELECT id, username FROM users WHERE id = ?',
         [id]
     );
     return rows[0];
