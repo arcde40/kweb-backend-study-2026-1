@@ -6,8 +6,9 @@ const replyService = require('../services/replyService');
 router.get('/', async (req, res) => {
   try {
     // TODO: postService.getAllPosts() 호출 후 결과 반환
-
-    res.status(501).json({ error: 'Not implemented' });
+    const posts = await postService.getAllPosts();
+    res.status(200).json(posts);
+    
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -18,8 +19,8 @@ router.get('/:id', async (req, res) => {
     const { id } = req.params;
 
     // TODO: postService.getPostById() 호출 후 결과 반환
-
-    res.status(501).json({ error: 'Not implemented' });
+    const post = await postService.getPostById(id);
+    res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -33,8 +34,9 @@ router.post('/', async (req, res) => {
     // 1. 세션에서 userId 가져오기
     // 2. postService.createPost() 호출
     // 3. 201 상태코드와 함께 결과 반환
-
-    res.status(501).json({ error: 'Not implemented' });
+    const {userId} = req.session;
+    const createdPost = await postService.createPost(title, content, userId);
+    res.status(201).json(createdPost);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -49,8 +51,9 @@ router.put('/:id', async (req, res) => {
     // 1. 세션에서 userId 가져오기
     // 2. postService.updatePost() 호출
     // 3. 결과 반환
-
-    res.status(501).json({ error: 'Not implemented' });
+    const {userId} = req.session;
+    const result = await postService.updatePost(id, title, content, userId);
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -64,8 +67,10 @@ router.delete('/:id', async (req, res) => {
     // 1. 세션에서 userId 가져오기
     // 2. postService.deletePost() 호출
     // 3. 204 상태코드 반환
+    const {userId} = req.session;
+    await postService.deletePost(id, userId);
 
-    res.status(501).json({ error: 'Not implemented' });
+    res.status(200).send();
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -76,8 +81,8 @@ router.get('/:postId/replies', async (req, res) => {
     const { postId } = req.params;
 
     // TODO: replyService.getRepliesByPostId() 호출 후 결과 반환
-
-    res.status(501).json({ error: 'Not implemented' });
+    const replies = await replyService.getRepliesByPostId(postId);
+    return status(200).json(replies);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -87,13 +92,14 @@ router.post('/:postId/replies', async (req, res) => {
   try {
     const { postId } = req.params;
     const { content } = req.body;
+    const {userId} = req.session;
 
     // TODO:
     // 1. 세션에서 userId 가져오기
     // 2. replyService.createReply() 호출
     // 3. 201 상태코드와 함께 결과 반환
-
-    res.status(501).json({ error: 'Not implemented' });
+    const createdReply = await replyService.createReply(content, postId, userId);
+    return res.status(201).json(createdReply);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

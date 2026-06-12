@@ -9,16 +9,36 @@ const { runQuery } = require('./database');
  * 모든 게시글 조회 (작성자 정보, 댓글 수 포함)
  */
 async function findAll() {
-    // TODO: JOIN 쿼리 작성 (users, replies COUNT)
-    throw new Error('Not implemented');
+    const posts = await runQuery(
+        `SELECT 
+        posts.id as id, 
+        posts.title as title,
+        posts.content as content, 
+        users.id as userId, 
+        users.username as username, 
+        posts.created_at as createdAt, 
+        count(replies.id) as reply_count 
+        from posts inner join users on posts.user_id = users.id 
+        left outer join replies on posts.id = replies.post_id 
+        group by posts.id
+        order by posts.created_at desc`,
+        []
+    );
+    return posts;
 }
 
 /**
  * ID로 게시글 조회 (작성자 정보, 댓글 수 포함)
  */
 async function findById(id) {
-    // TODO: JOIN 쿼리 작성
-    throw new Error('Not implemented');
+    const posts = await runQuery(
+        `SELECT posts.id, title, posts.content, users.id as userId, username, posts.created_at as createdAt, count(replies.id) as reply_count 
+        from posts inner join users on posts.user_id = users.id 
+        left outer join replies on posts.id = replies.post_id where posts.id = ?
+        group by posts.id`, 
+        [id]
+    );
+    return posts[0];
 }
 
 /**
