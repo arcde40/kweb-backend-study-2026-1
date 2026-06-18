@@ -2,14 +2,14 @@ const express = require("express");
 
 const app = express();
 
-app.get("/asdf", (req, res) => {
-    res.send("<h1>Hi, Human!</h1>");
+app.get("/hello", (req, res) => {
+    res.send("Hello, World!");
 });
 
-app.get("/burger", (req, res) => {
-    res.send("<h1>Im hungry!</h1>");
+app.get("/bye", (req, res) => {
+    res.send("Goodbye, World!");
 });
 
 app.listen(8080, () => {
-    console.log('Server listening on port 3000!');
+    console.log('Server listening on port 8080!');
 });
