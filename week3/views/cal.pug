@@ -1,0 +1,36 @@
+doctype html
+html(lang="ko")
+    head
+        title Calculator
+        link(rel="stylesheet", href="/style-improved.css")
+        if error
+            script.
+                alert(#{'\'' + error + '\''});
+    body
+        main.container
+            header
+                h1
+                    |  Calculaotr^^
+
+            section.add-section
+                if (sign === 1)
+                    form(action="/plus", method="POST")
+                        input(type="text", name="a", placeholder="값1", required=true, autocomplete="off")
+                        input(type="text", name="b", placeholder="값2", required=true, autocomplete="off")
+                        button(type="submit") 더하기
+                else
+                    form(action="/minus", method="POST")
+                        input(type="text", name="a", placeholder="값1", required=true, autocomplete="off")
+                        input(type="text", name="b", placeholder="값2", required=true, autocomplete="off")
+                        button(type="submit") 빼기
+
+            section.add-section
+                form(action="/signal", method="POST")
+                    if (sign === 1) 
+                        input(type="hidden", name="signal", value = 0)
+                    else 
+                        input(type="hidden", name="signal", value = 1)
+                    button(type="submit") 부호 바꾸기
+
+            section.resultshow
+                h1 결과는 #{result}
