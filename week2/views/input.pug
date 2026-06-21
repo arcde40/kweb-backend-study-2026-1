@@ -1,0 +1,17 @@
+html
+    head
+        title 덧셈 계산기
+
+    body
+        h1 두 수 입력
+
+        form(action="/math/sum" method="get")
+            div
+                label 첫 번째 수:
+                input(type="number" name="a")
+
+            div
+                label 두 번째 수:
+                input(type="number" name="b")
+
+            button(type="submit") 계산하기
