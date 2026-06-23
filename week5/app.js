@@ -3,6 +3,8 @@ const session = require('express-session');
 
 const app = express();
 
+let sessionId = 1;
+
 app.use(session({
 	secret: 'asdf',
 	resave: false,
@@ -10,18 +12,42 @@ app.use(session({
 }));
 
 app.get('/login', (req, res) => {
+	const {user} = req.session;
+	if(user) return res.send('You are already logged in');
+	
+
 	const name = req.query.name;
+	const id = sessionId++;
+	req.session.user = {
+		id : id,
+		name : name,
+	};
+
+	return res.send(`Hi, ${name}. Your sessionId is ${id}`);
 });
 
 app.get('/logout', (req, res) => {
-
+	req.session.destroy(err => {
+		if(err) return res.send('Something went wrong');
+		return res.send('Success');
+	})
 });
 
 app.get('/tell', (req, res) => {
 	const msg = req.query.msg;
+	const {user} = req.session;
+
+	if(!user) return res.send('You are not logged in');
+	user.msg = msg;
+	return res.send('I remember you!');
 });
 
 app.get('/ask', (req, res) => {
+	const {user} = req.session;
+	if(!user) return res.send('You are not logged in');
+	const {id,name,msg} = user;
+
+	return res.send(`Your id : ${id}, name = ${name}, msg = ${msg}`);
 
 });
 
