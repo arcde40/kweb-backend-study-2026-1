@@ -1,0 +1,19 @@
+doctype html
+html 
+head 
+      meta(charset="UTF-8")
+body
+      h1#page_title Sum/Sub Page 
+      form(method = 'GET')
+        div.question
+          label 1. 첫번째 숫자 입력
+          input(type='number', name="a" required)
+          br
+       
+        div.question
+          label 2. 두번째 숫자 입력
+          input(type='number', name='b' reqiured)
+          br
+        div.sign 
+          button(type="submit" formaction="/math/sum") 더하기 (+)
+          button(type="submit" formaction="/math/sub") 빼기 (-)
