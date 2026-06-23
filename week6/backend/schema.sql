@@ -1,5 +1,7 @@
 -- Create database
+
 USE kweb_db;
+
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
