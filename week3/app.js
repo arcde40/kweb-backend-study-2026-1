@@ -1,14 +1,19 @@
 const express = require('express');
-
 const app = express();
 
-app.use(express.urlencoded({extended: true}));
-app.set('views', `${__dirname}/views`);
+const mathRouter = require('./math');
+
+app.use(express.urlencoded({ extended: false }));
+
+app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
-app.use(express.static('public'));
 
-const tasks = [
-	{name: "Default", completed: false},
-];
+app.use('/math', mathRouter);
 
-/* Your Code Here */
+app.get('/', (req, res) => {
+  res.redirect('/math');
+});
+
+app.listen(8888, () => {
+  console.log('Server running on port 8888');
+});

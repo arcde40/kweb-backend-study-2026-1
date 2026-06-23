@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title Math Calculator
+  body
+    h1 Math Calculator
+
+    form(action='/math/sum', method='POST')
+      p
+        | a:
+        input(type='number', name='a', required)
+      p
+        | b:
+        input(type='number', name='b', required)
+      button(type='submit') 합 구하기
+
+    br
+
+    form(action='/math/sub', method='POST')
+      p
+        | a:
+        input(type='number', name='a', required)
+      p
+        | b:
+        input(type='number', name='b', required)
+      button(type='submit') 차 구하기
+
+    if result !== null
+      h2 #{expression} = #{result}
