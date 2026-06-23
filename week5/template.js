@@ -22,12 +22,12 @@ app.get('/', async (req, res) => {
 
 // Template Start (Edit from here)
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, pass } = req.body;
     const query = `SELECT * FROM users WHERE username = '?' AND password = '?'`
     
     let loginResult = '';
     try {
-        const rows = await runQuery(query, [username, password]);
+        const rows = await runQuery(query, [username, pass]);
         const user = rows[0]; 
 
         if (user) {
