@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "express": "^5.2.1",
-    "mysql2": "^3.22.3"
+    "express-session": "^1.19.0",
+    "mysql2": "^3.22.3",
+    "pug": "^3.0.4"
   }
 }

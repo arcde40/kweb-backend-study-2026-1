@@ -1,0 +1,39 @@
+doctype html
+html(lang="ko")
+  head
+    meta(charset="UTF-8")
+    title 너덜너덜 방명록
+    style.
+      body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; line-height: 1.6; }
+      .section { border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+      .alert { color: red; font-weight: bold; }
+  body
+    h1 너덜너덜 방명록
+
+    div.section
+      h2 1. 로그인 (SQL Injection 실습)
+      p 목표: 비밀번호를 몰라도 
+        code admin
+        |  계정으로 로그인해 보세요.
+      form(action="/login", method="POST")
+        input(type="text", name="username", placeholder="아이디", required=true)
+        | 
+        input(type="password", name="password", placeholder="비밀번호", required=true)
+        | 
+        button(type="submit") 로그인
+      
+      if loginResult
+        p.alert= loginResult
+
+    div.section
+      h2 2. 방명록 (XSS 실습)
+      p 목표: 방명록을 열었을 때 `alert('XSS')` 창이 뜨도록 만들어 보세요.
+      form(action="/comment", method="POST")
+        textarea(name="content", placeholder="방명록을 남겨주세요.", rows="3", style="width: 100%;", required=true)
+        br
+        button(type="submit") 작성하기
+
+      h3 방명록 목록
+      ul
+        each comment in comments
+          li!= comment.content
