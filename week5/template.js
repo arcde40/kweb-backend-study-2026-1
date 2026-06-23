@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const sanitizeHtml = require('sanitize-html');
 const { runQuery, initDB } = require('./template/database_template');
 
 const app = express();
@@ -21,13 +22,12 @@ app.get('/', async (req, res) => {
 
 // Template Start (Edit from here)
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    
-    const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+    const { username, pass } = req.body;
+    const query = `SELECT * FROM users WHERE username = '?' AND password = '?'`
     
     let loginResult = '';
     try {
-        const rows = await runQuery(query);
+        const rows = await runQuery(query, [username, pass]);
         const user = rows[0]; 
 
         if (user) {
@@ -48,7 +48,8 @@ app.post('/comment', async (req, res) => {
 
     try {
         const query = `INSERT INTO comments (content) VALUES (?)`;
-        await runQuery(query, [content]);
+        const sanitized = sanitizeHtml(content);
+        await runQuery(query, [sanitized]);
     } catch (err) {
         console.error(err);
     }
