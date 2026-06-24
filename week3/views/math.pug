@@ -1,0 +1,31 @@
+doctype html
+html(lang="ko")
+    head
+        title 계산기
+        link(rel="stylesheet", href="/style-improved.css")
+        if error
+            script.
+                alert(#{'\'' + error + '\''});
+    body
+        main.container
+            header
+                h1
+                    span.icon 🧮
+                    |  계산기
+
+            section.add-section
+                form(action="/math/calc", method="POST")
+                    input(type="number", name="a", placeholder="숫자 A", required=true, autocomplete="off")
+                    input(type="number", name="b", placeholder="숫자 B", required=true, autocomplete="off")
+                    
+                    button(type="submit", name="operator", value="sum") +
+                    button(type="submit", name="operator", value="sub") -
+
+            section.task-section
+                if (result !== undefined)
+                    div.empty-state
+                        p.empty-icon ✨
+                        if operator === 'sum'
+                            p.empty-message #{a} + #{b} 는 #{result} 입니다!
+                        else
+                            p.empty-message #{a} - #{b} 는 #{result} 입니다!

@@ -9,8 +9,13 @@ const { runQuery } = require('./database');
  * 특정 게시글의 모든 댓글 조회 (작성자 정보 포함)
  */
 async function findByPostId(postId) {
-    // TODO: JOIN 쿼리 작성 (users 테이블과 조인)
-    throw new Error('Not implemented');
+    const sql = `
+    SELECT * from replies
+    join users on replies.user_id = users.id
+    WHERE replies.post_id = ?
+    `;
+    const result = await runQuery(sql, [postId]);
+    return result;
 }
 
 /**

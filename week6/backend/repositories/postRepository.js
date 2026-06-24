@@ -9,16 +9,27 @@ const { runQuery } = require('./database');
  * 모든 게시글 조회 (작성자 정보, 댓글 수 포함)
  */
 async function findAll() {
-    // TODO: JOIN 쿼리 작성 (users, replies COUNT)
-    throw new Error('Not implemented');
+    const sql = `
+    SELECT * from posts
+    join users on users.id = posts.user_id
+    join replies on posts.id = replies.post_id
+    `
+    const result = await runQuery(sql);
+    return result;
 }
 
 /**
  * ID로 게시글 조회 (작성자 정보, 댓글 수 포함)
  */
 async function findById(id) {
-    // TODO: JOIN 쿼리 작성
-    throw new Error('Not implemented');
+    const sql = `
+    SELECT * from posts
+    join users on users.id = posts.user_id
+    join replies on posts.id = replies.post_id
+    WHERE posts.id = ?
+    `;
+    const result = await runQuery(sql, [id]);
+    return result;
 }
 
 /**
