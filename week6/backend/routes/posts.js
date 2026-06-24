@@ -6,6 +6,7 @@ const replyService = require('../services/replyService');
 router.get('/', async (req, res) => {
   try {
     // TODO: postService.getAllPosts() 호출 후 결과 반환
+    //authService.register()
 
     res.status(501).json({ error: 'Not implemented' });
   } catch (error) {
