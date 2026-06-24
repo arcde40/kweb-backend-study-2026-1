@@ -52,7 +52,7 @@ async function login(username, password) {
         throw new Error("값이 비어있습니다!");
     }
 
-    const user = userRepository.findByUsername(username);
+    const user = await userRepository.findByUsername(username);
 
     if(!user) throw new Error('아이디/비밀번호를 확인해주세요.')
 
